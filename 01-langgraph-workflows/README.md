@@ -20,7 +20,7 @@ The goal of this project is to understand how state, nodes, edges, routing, para
 ## Project Structure
 
 ```text
-04-langgraph-workflows/
+01-langgraph-workflows/
 │
 ├── README.md
 ├── requirements.txt
