@@ -1,4 +1,4 @@
-# 04 — LangGraph Workflows
+# 01 — LangGraph Workflows
 
 A learning lab for understanding the fundamentals of **LangGraph and agentic workflows**.
 
