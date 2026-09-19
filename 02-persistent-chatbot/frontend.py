@@ -1,6 +1,6 @@
 import streamlit as st
 from backend import chatbot
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage,AIMessage
 
 CONFIG = {"configurable": {"thread_id": "thread_1"}}
 
@@ -26,17 +26,35 @@ if user_input :
     with st.chat_message('user'):
         st.write(user_input)
 
-    # invoke langgraph chatbot
-    response=chatbot.invoke({"messages":[HumanMessage(content=user_input)]},config=CONFIG)
+    # stream langgraph chatbot
+    full_response=""
 
-    # get ai response 
-    ai_message=response['messages'][-1].content
+    with st.chat_message('assistant'):
+        message_placeholder=st.empty()
+        for chunk in chatbot.stream({
+            'messages':[HumanMessage(content=user_input)]
+        },
+        config=CONFIG,
+        stream_mode='messages'
+        ):
 
-    # display ai response
-    with st.chat_message("assistant"):
-        st.write(ai_message)
+            # separate message and metadata
+            message,metadata=chunk
+
+            # process only AI message chunk
+            if isinstance(message,AIMessage):
+                token=message.content
+                if token:
+
+                    # accumulate streamed token
+                    full_response+=token
+                    # display progressively
+                    message_placeholder.markdown(full_response + "▌")
+        
+        # display final response without cursor
+        message_placeholder.markdown(full_response)
 
     # save both messages in session state
     st.session_state['message_history'].append({'role':'user','content':user_input})
 
-    st.session_state['message_history'].append({'role':'assistant','content':ai_message})
+    st.session_state['message_history'].append({'role':'assistant','content':full_response})

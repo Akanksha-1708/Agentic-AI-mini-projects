@@ -11,7 +11,7 @@ from langgraph.checkpoint.memory import MemorySaver
 load_dotenv()
 
 # LLM
-llm = ChatMistralAI(model="ministral-3b-latest")
+llm = ChatMistralAI(model="ministral-3b-latest", streaming=True)
 
 
 # State
@@ -51,5 +51,4 @@ memory = MemorySaver()
 
 # Compile graph with memory
 chatbot = graph.compile(checkpointer=memory)
-
 
