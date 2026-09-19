@@ -203,7 +203,7 @@ git clone https://github.com/Akanksha-1708/Agentic-AI-mini-projects.git
 Navigate to the project:
 
 ```bash
-cd YOUR_REPOSITORY
+cd Agentic-AI-mini-projects
 cd 02-persistent-chatbot
 ```
 
